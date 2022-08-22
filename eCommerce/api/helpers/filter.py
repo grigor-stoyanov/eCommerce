@@ -8,24 +8,27 @@ class QueryParamFilter(BaseFilterBackend):
             name='date_start',
             location='query',
             required=True,
-            type='Date',
+            type='string',
             description='Starting date of monthly report.',
-            example='2022-08-11',
-            schema={'type': 'string', 'format': 'date'}
         ), coreapi.Field(
             name='date_end',
             location='query',
             required=True,
-            type='Date',
+            type='string',
             description='End date of monthly report.',
-            example='2022-08-11',
-            schema={'type': 'string', 'format': 'date'}
         ), coreapi.Field(
             name='metric',
             location='query',
             required=True,
-            type='Enum[‘price’, ‘count’]',
+            type='string',
             description='Type of Report.(count or price)',
-            example='count',
-            schema={'type': 'string'}
         ), ]
+
+    def filter_queryset(self, request, queryset, view):
+        try:
+            n = request.query_params['name']
+            queryset = queryset.filter(name=n)
+        except KeyError:
+            # no query parameters
+            pass
+        return queryset
