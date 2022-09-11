@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Ignore logs from simple_deploy.
+simple_deploy_logs/
